@@ -31,7 +31,7 @@ public class MouseSeek : MonoBehaviour
     {
         Vector3 camerapos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         camerapos.z = 0;
-        pProduct = Mathf.Sqrt(Mathf.Pow(camerapos.x - transform.position.x, 2) + Mathf.Pow(camerapos.y - transform.position.y, 2));
+        pProduct = Vector3.Distance(camerapos, transform.position);
 
         Vector3 position = camerapos - transform.position;
 

@@ -1,16 +1,16 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ObjectWander : MonoBehaviour
 {
-    public int speed;
+    private int speed;
     private Vector3 currentV;
     private float pProduct;
     public float mass;
     public float minVX, maxVX;
     public float minVY, maxVY;
     private Vector3 rPOS;
+    private LineRenderer lineRenderer;
 
     public GameObject wanderC;
     public float distanceC;
@@ -19,12 +19,15 @@ public class ObjectWander : MonoBehaviour
     {
         currentV = Vector3.zero;
         StartCoroutine(RandomPos());
+        lineRenderer = GetComponent<LineRenderer>();
     }
 
     void Update()
     {
-        //Rotation();
-        
+        RenderLineWander();
+
+        Rotation();
+
         Seek();
 
         WanderC();
@@ -51,7 +54,7 @@ public class ObjectWander : MonoBehaviour
         currentV += steering;
         transform.position += currentV * Time.deltaTime;
 
-        //DistanceAplication();
+        DistanceAplication();
     }
 
     private void DistanceAplication()
@@ -72,7 +75,7 @@ public class ObjectWander : MonoBehaviour
 
     IEnumerator RandomPos()
     {
-        while(true)
+        while (true)
         {
             rPOS = new Vector3(Random.Range(minVX, maxVX), Random.Range(minVY, maxVY), 0);
             yield return new WaitForSeconds(1.5f);
@@ -81,6 +84,21 @@ public class ObjectWander : MonoBehaviour
 
     private void WanderC()
     {
-        wanderC.transform.position = transform.position + (currentV.normalized * distanceC);
+        wanderC.transform.position = transform.position * distanceC;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawRay(transform.position, wanderC.transform.position - transform.position);
+    }
+
+    private void RenderLineWander()
+    {
+        if (lineRenderer != null)
+        {
+            lineRenderer.SetPosition(0, this.transform.position);
+            lineRenderer.SetPosition(1, wanderC.transform.position);
+        }
     }
 }

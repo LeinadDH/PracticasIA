@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Timeline;
 using UnityEngine;
 
 public class Player : SteeringBehaviors
@@ -8,6 +9,7 @@ public class Player : SteeringBehaviors
     public Vector3 FrameVelocity;
     Vector3 PrevPosition;
     private Vector3 target;
+    public Queue<GameObject> collectables;
 
     void Update()
     {
@@ -33,11 +35,19 @@ public class Player : SteeringBehaviors
 
     void InputMove()
     {
-        if(Input.GetMouseButtonDown(0))
+        if(Input.GetMouseButtonDown(0) || Input.GetMouseButton(0))
         {
             target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             target.z = 0;
             this.speed = 5;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if(other.CompareTag("Collectable"))
+        {
+            collectables.Enqueue(other.gameObject);
         }
     }
 }

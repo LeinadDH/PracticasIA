@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 
 public class SteeringBehaviors : MonoBehaviour
@@ -24,7 +25,9 @@ public class SteeringBehaviors : MonoBehaviour
     public Vector3 futurePosition;
     public float changeInT;
 
-    
+    [Header("Follow Leader")]
+    public float distanceBehind;
+
     public Vector3 Seek(Vector3 targetPos)
     {
         Vector3 distance = targetPos - transform.position;
@@ -67,5 +70,13 @@ public class SteeringBehaviors : MonoBehaviour
     {
         Vector3 steering = Pursuit(targetPos);
         return steering * -1;
+    }
+
+    public Vector3 Follow(SteeringBehaviors LeaderBehaviors, GameObject Leader)
+    {
+        Vector3 tv = LeaderBehaviors.desiredVelocity * -1;
+        tv = tv.normalized * distanceBehind;
+        Vector3 behind = Leader.transform.position + tv;
+        return behind;
     }
 }

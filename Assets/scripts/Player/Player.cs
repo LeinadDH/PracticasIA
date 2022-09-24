@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor.Timeline;
 using UnityEngine;
 
@@ -9,7 +10,7 @@ public class Player : SteeringBehaviors
     public Vector3 FrameVelocity;
     Vector3 PrevPosition;
     private Vector3 target;
-    public Queue<GameObject> collectables;
+    public Queue<GameObject> collectables = new Queue<GameObject>();
 
     void Update()
     {
@@ -23,7 +24,7 @@ public class Player : SteeringBehaviors
         }
 
         VelocityPerFrame();
-        InputMove();
+        InputMove();  
     }
 
     void VelocityPerFrame()
@@ -45,9 +46,26 @@ public class Player : SteeringBehaviors
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.CompareTag("Collectable"))
+        if(other.CompareTag("collectable"))
         {
             collectables.Enqueue(other.gameObject);
+            other.gameObject.GetComponent<SteeringBehaviors>().distanceBehind = collectables.Count;
+            other.gameObject.GetComponent<CircleCollider2D>().enabled = false;
         }
+        if(collectables.Count > 0)
+        {
+            if (other.CompareTag("Enemy"))
+            {
+                collectables.Peek().GetComponent<FollowObject>().followEnable = false;
+                collectables.Peek().transform.position = Vector3.zero;
+                collectables.Peek().GetComponent<CircleCollider2D>().enabled = true;
+                collectables.Dequeue();
+                foreach (var stearingCode in collectables)
+                {
+                    stearingCode.GetComponent<SteeringBehaviors>().distanceBehind = stearingCode.GetComponent<SteeringBehaviors>().distanceBehind - 1;
+                }
+            }
+        }
+        
     }
 }

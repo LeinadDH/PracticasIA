@@ -28,6 +28,11 @@ public class SteeringBehaviors : MonoBehaviour
     [Header("Follow Leader")]
     public float distanceBehind;
 
+    [Header("Avoid")]
+    public float maxSeeAhead;
+    public float maxAvoidForce;
+    public GameObject avoidGameObject;
+
     public Vector3 Seek(Vector3 targetPos)
     {
         Vector3 distance = targetPos - transform.position;
@@ -78,5 +83,14 @@ public class SteeringBehaviors : MonoBehaviour
         tv = tv.normalized * distanceBehind;
         Vector3 behind = Leader.transform.position + tv;
         return behind;
+    }
+
+    public Vector3 Avoid()
+    {
+        Vector3 seeAhead = transform.position + (velocity.normalized * maxSeeAhead / 2);
+        Vector3 avoidanceForce = seeAhead - avoidGameObject.transform.position;
+        avoidanceForce = (avoidanceForce.normalized) * maxAvoidForce;
+
+        return avoidanceForce;
     }
 }

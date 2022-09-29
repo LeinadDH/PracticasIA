@@ -7,6 +7,7 @@ public class WanderObject : SteeringBehaviors
     public GameObject circle;
     public Transform randomT;
     public float randomTime;
+    private float randomX, randomY;
 
     void Start()
     {
@@ -19,8 +20,8 @@ public class WanderObject : SteeringBehaviors
         {
             yield return new WaitForSeconds(randomTime);
             this.angle = Random.Range(-180f, 180f);
-            float randomX = Random.Range(-20, 20);
-            float randomY = Random.Range(-20, 20);
+            randomX = Random.Range(-20, 20);
+            randomY = Random.Range(-20, 20);
             randomT.position = new Vector3(randomX, randomY, 0);
         }
     }

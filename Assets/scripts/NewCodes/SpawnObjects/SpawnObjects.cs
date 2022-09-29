@@ -1,7 +1,4 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class SpawnObjects : MonoBehaviour
@@ -21,14 +18,14 @@ public class SpawnObjects : MonoBehaviour
     void Start()
     {
         canvas.SetActive(false);
-        numberOfEnemies = UnityEngine.Random.Range(20, 40);
+        numberOfEnemies = Random.Range(20, 40);
     }
 
     void Update()
     {
         if (collectables.Count < numberOfEnemies)
         {
-            Vector3 randomPos = new Vector3(UnityEngine.Random.Range(-20, 20), UnityEngine.Random.Range(-20, 20), 0);
+            Vector3 randomPos = new Vector3(Random.Range(-20, 20), Random.Range(-20, 20), 0);
             Spawner = Instantiate(collectable, randomPos, Quaternion.identity) as GameObject;
             Spawner.transform.parent = this.gameObject.transform;
             collectables.Add(GameObject.FindGameObjectWithTag("collectable"));
@@ -40,19 +37,10 @@ public class SpawnObjects : MonoBehaviour
         objectInFollow = player.GetComponent<Player>().collectables.Count;
         Debug.Log("Objetos siguiendo al player: " + objectInFollow);
 
-        if (objectInFollow >= thirdPart)
+        foreach (var followcode in GetComponentsInChildren<FollowObject>())
         {
-            foreach (var followcode in GetComponentsInChildren<FollowObject>())
-            {
-                followcode.enableFlee = true;
-            }
-        }
-        if (objectInFollow < thirdPart)
-        {
-            foreach (var followcode in GetComponentsInChildren<FollowObject>())
-            {
-                followcode.enableFlee = false;
-            }
+            followcode.enableFlee = false;
+            if (objectInFollow >= thirdPart) followcode.enableFlee = true;
         }
 
         twoPart = Mathf.Round(numberOfEnemies * 0.6f);
@@ -70,11 +58,11 @@ public class SpawnObjects : MonoBehaviour
                 {
                     player.GetComponent<Player>().collectables.Peek().GetComponent<FollowObject>().enablePursuit = true;
                     player.GetComponent<Player>().collectables.Dequeue();
-                    foreach (var stearingCode in GetComponentsInChildren<FollowObject>())
-                    {
-                        stearingCode.GetComponent<SteeringBehaviors>().distanceBehind = stearingCode.GetComponent<SteeringBehaviors>().distanceBehind - 1;
-                    }
                     enemies.Add(GameObject.FindGameObjectWithTag("Enemy"));
+                }
+                foreach (var stearingCode in GetComponentsInChildren<SteeringBehaviors>())
+                {
+                    stearingCode.distanceBehind = stearingCode.distanceBehind - 3;
                 }
             }
         }

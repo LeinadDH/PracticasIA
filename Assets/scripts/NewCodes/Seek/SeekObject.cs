@@ -16,8 +16,8 @@ public class SeekObject : SteeringBehaviors
 
     void Update()
     {
+        this.speed = 2;
         if (speedIntervals != null && enableInterval) this.speed = speedIntervals.SpeedInterval(target.transform.position);
-        else this.speed = 2;
         Vector3 seek = this.Seek(target.transform.position);
         transform.position += seek * Time.deltaTime;
     }

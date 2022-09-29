@@ -19,7 +19,7 @@ public class SteeringBehaviors : MonoBehaviour
     [Range(-180f, 180f)]
     public float angle;
 
-    [Header("Purstui")]
+    [Header("Pursuit")]
     public Vector3 VPF; //Velocity per Frame
     public Vector3 tempPosition;
     public Vector3 futurePosition;

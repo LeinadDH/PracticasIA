@@ -1,7 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.Timeline;
 using UnityEngine;
 
 public class Player : SteeringBehaviors
@@ -18,10 +15,7 @@ public class Player : SteeringBehaviors
         transform.position += seek * Time.deltaTime;
 
         float pProduct = Vector3.Distance(target, transform.position);
-        if (pProduct < 0.1f)
-        {
-            speed = 0;
-        }
+        if (pProduct < 0.1f) speed = 0;
 
         VelocityPerFrame();
         InputMove();  

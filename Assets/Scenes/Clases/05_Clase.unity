@@ -253,7 +253,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4de7b27f0ab8d74099c687e1a9505ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  factorialOfNumber: 5
+  factorial: 5
+  fibbonacci: 5
+  array: 0200000057010000ea0000000000000002000000
+  list:
+  - 0
+  - 5
+  - 10
+  - 20
 --- !u!4 &488571213
 Transform:
   m_ObjectHideFlags: 0

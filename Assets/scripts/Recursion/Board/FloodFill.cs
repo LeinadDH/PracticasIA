@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class FloorFill : MonoBehaviour
+public class FloodFill : MonoBehaviour
 {
     public float fillDelay;
     private Board board;

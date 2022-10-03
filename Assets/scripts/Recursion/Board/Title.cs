@@ -4,14 +4,14 @@ using UnityEngine;
 public class Title : MonoBehaviour
 {
     private SpriteRenderer render;
-    private FloorFill fill;
+    private FloodFill fill;
     private string[] substrings;
     private int x, y;
 
     private void Start()
     {
         render = this.gameObject.GetComponent<SpriteRenderer>();
-        fill = GetComponentInParent<FloorFill>();
+        fill = GetComponentInParent<FloodFill>();
     }
     private void OnMouseOver()
     {

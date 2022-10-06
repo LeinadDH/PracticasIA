@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 
-public class FloorFill : MonoBehaviour
+public class FloodFill : MonoBehaviour
 {
     public float fillDelay;
     private Board board;

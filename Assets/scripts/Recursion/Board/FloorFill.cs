@@ -1,4 +1,6 @@
 using System.Collections;
+using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class FloorFill : MonoBehaviour
@@ -9,6 +11,9 @@ public class FloorFill : MonoBehaviour
     public int seedX, seedY;
     [HideInInspector]
     public bool seedEnable;
+    public bool queueFill;
+
+    private GameObject[,] _grid;
 
     private void Start()
     {
@@ -26,9 +31,15 @@ public class FloorFill : MonoBehaviour
             }
         }
 
+        /*
         if(Input.GetKeyDown("space"))
         {
             StartCoroutine(Fill(seedX, seedY));
+        }
+        */
+        if (Input.GetKeyDown("space"))
+        {
+            StartCoroutine(FillQueue(seedX, seedY));
         }
     }
 
@@ -47,6 +58,30 @@ public class FloorFill : MonoBehaviour
                 StartCoroutine(Fill(x - 1, y));
                 StartCoroutine(Fill(x, y + 1));
                 StartCoroutine(Fill(x, y - 1));
+            }
+        }
+    }
+
+    IEnumerator FillQueue(int x, int y)
+    {
+        Vector2 fillPos = new Vector2(x, y);
+        Queue<Vector2> fill = new Queue<Vector2>();
+        fill.Enqueue(fillPos);
+        while (fill.Count > 0)
+        {
+            fill.Dequeue();
+            if (x >= 0 && x < board.widht && y >= 0 && y < board.height)
+            {
+                SpriteRenderer currentRender = board.boardParent[x, y].GetComponent<SpriteRenderer>();
+                yield return new WaitForSeconds(fillDelay);
+                if (currentRender.color == Color.white || currentRender.color == Color.green)
+                {
+                    currentRender.color = Color.red;
+                    if (x + 1 < board.widht) fill.Enqueue(new Vector2((x + 1), y));
+                    if (x - 1 <= board.widht) fill.Enqueue(new Vector2((x - 1), y));
+                    if (y + 1 < board.height) fill.Enqueue(new Vector2(x, (y + 1)));
+                    if (y - 1 <= board.height) fill.Enqueue(new Vector2(x, (y - 1)));
+                }
             }
         }
     }

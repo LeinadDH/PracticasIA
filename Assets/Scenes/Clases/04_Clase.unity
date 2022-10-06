@@ -272,6 +272,7 @@ MonoBehaviour:
   seedX: 4
   seedY: 4
   seedEnable: 1
+  queueFill: 1
 --- !u!1 &1656545965
 GameObject:
   m_ObjectHideFlags: 0

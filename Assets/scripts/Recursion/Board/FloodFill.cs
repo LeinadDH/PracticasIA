@@ -31,15 +31,17 @@ public class FloodFill : MonoBehaviour
             }
         }
 
-        /*
+
         if(Input.GetKeyDown("space"))
         {
-            StartCoroutine(Fill(seedX, seedY));
-        }
-        */
-        if (Input.GetKeyDown("space"))
-        {
-            StartCoroutine(FillQueue(seedX, seedY));
+            if(!queueFill)
+            {
+                StartCoroutine(Fill(seedX, seedY));
+            }
+            if (queueFill)
+            {
+                StartCoroutine(FillQueue(new Vector2(seedX, seedY)));
+            }
         }
     }
 
@@ -62,25 +64,24 @@ public class FloodFill : MonoBehaviour
         }
     }
 
-    IEnumerator FillQueue(int x, int y)
+    IEnumerator FillQueue(Vector2 postile)
     {
-        Vector2 fillPos = new Vector2(x, y);
         Queue<Vector2> fill = new Queue<Vector2>();
-        fill.Enqueue(fillPos);
+        fill.Enqueue(postile);
         while (fill.Count > 0)
         {
-            fill.Dequeue();
-            if (x >= 0 && x < board.widht && y >= 0 && y < board.height)
+            postile = fill.Dequeue();
+            if (postile.x >= 0 && postile.x < board.height && postile.y >= 0 && postile.y < board.widht)
             {
-                SpriteRenderer currentRender = board.boardParent[x, y].GetComponent<SpriteRenderer>();
+                SpriteRenderer currentRender = board.boardParent[(int)postile.x, (int)postile.y].GetComponent<SpriteRenderer>();
                 yield return new WaitForSeconds(fillDelay);
                 if (currentRender.color == Color.white || currentRender.color == Color.green)
                 {
                     currentRender.color = Color.red;
-                    if (x + 1 < board.widht) fill.Enqueue(new Vector2((x + 1), y));
-                    if (x - 1 <= board.widht) fill.Enqueue(new Vector2((x - 1), y));
-                    if (y + 1 < board.height) fill.Enqueue(new Vector2(x, (y + 1)));
-                    if (y - 1 <= board.height) fill.Enqueue(new Vector2(x, (y - 1)));
+                    if (postile.x + 1 < board.height) fill.Enqueue(new Vector2((postile.x + 1), postile.y));
+                    if (postile.x - 1 <= board.height) fill.Enqueue(new Vector2((postile.x - 1), postile.y));
+                    if (postile.y + 1 < board.widht) fill.Enqueue(new Vector2(postile.x, (postile.y + 1)));
+                    if (postile.y - 1 <= board.widht) fill.Enqueue(new Vector2(postile.x,(postile.y - 1)));
                 }
             }
         }

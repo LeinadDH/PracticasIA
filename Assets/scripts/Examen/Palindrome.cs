@@ -179,11 +179,7 @@ public class Palindrome : MonoBehaviour
             _palindrome = _palindrome + _palindrome;
             MultipliPalindrom(i + 1, j);
         }
-        else
-        {
-            return;
-        }
-        
+        else { return; }
     }
 
     public void Multiply(int i)

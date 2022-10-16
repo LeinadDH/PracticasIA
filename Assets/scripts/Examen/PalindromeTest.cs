@@ -7,6 +7,9 @@ public class PalindromeTest : MonoBehaviour
     public GameObject p;
     public string myPalindrom;
     private Palindrome palindrom;
+    public int indexToRemoveOrToAdd;
+    public string stringToAdd;
+    public int timesToMultiply;
 
     void Start()
     {
@@ -28,5 +31,20 @@ public class PalindromeTest : MonoBehaviour
     {
         palindrom.New(myPalindrom);
         Debug.Log("Se añadio palindromo");
+    }
+
+    public void RemoveP()
+    {
+        palindrom.Remove(indexToRemoveOrToAdd);
+    }
+
+    public void Addp()
+    {
+        palindrom.Add(indexToRemoveOrToAdd, stringToAdd);
+    }
+
+    public void MultiplyP()
+    {
+        palindrom.Multiply(timesToMultiply);
     }
 }

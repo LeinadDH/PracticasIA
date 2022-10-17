@@ -4,15 +4,35 @@ using UnityEngine;
 
 public class Block : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private int _x;
+    private int _y;
+    private SpriteRenderer _render;
+    private Color _color;
+    //private MapManager _manager;
+    private int _obstacle;
+    private int _moveCost;
+
+    public int X { get => _x; set => _x = value; }
+    public int Y { get => _y; set => _y = value; }
+
+    private void Awake()
     {
         
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
+    {
+        
+    }
+
+    private void OnMouseOver()
+    {
+        
+    }
+
+    private void OnMouseExit()
     {
         
     }
 }
+

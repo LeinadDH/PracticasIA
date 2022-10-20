@@ -48,7 +48,7 @@ public class Map : MonoBehaviour
                 _sizeY = title.transform.localScale.y;
                 title.transform.position = new Vector3(_sizeX * (0.5f + X), _sizeY * (0.5f + Y), 0);
 
-                if (_isIso == true)
+                if (_isIso)
                 {
                     createIsoMap(title, title.GetComponent<SpriteRenderer>(), block.X, block.Y);
                 }
@@ -57,9 +57,7 @@ public class Map : MonoBehaviour
             }
         }
 
-        
-
-        transform.position = new Vector3(_sizeX * (-_height / 2), _sizeY * (-_width / 2), 0);
+        CenterMap();
 
         return _map;
     }
@@ -71,7 +69,7 @@ public class Map : MonoBehaviour
 
     public void createIsoMap(GameObject gameObject, SpriteRenderer render, int x, int y)
     {
-        _rotX = new Vector2(0.5f * (render.bounds.size.x + _offsetx), 0.25f *(render.bounds.size.y + _offsety));
+        _rotX = new Vector2(0.5f * (render.bounds.size.x + _offsetx), 0.25f * (render.bounds.size.y + _offsety));
         _rotY = new Vector2(-0.5f * (render.bounds.size.x + _offsetx), 0.25f * (render.bounds.size.y + _offsety));
 
         Vector2 rotate = (x * _rotX) + (y * _rotY);
@@ -79,5 +77,11 @@ public class Map : MonoBehaviour
 
         render.sortingOrder = _order;
         _order -= 1;
+    }
+
+    public void CenterMap()
+    {
+        if(!_isIso) transform.position = new Vector3(_sizeX * (-_height / 2), _sizeY * (-_width / 2), 0);
+        else transform.position = new Vector3(0, _sizeY * (-_width * 2f - (0.4f * _width)), 0);
     }
 }

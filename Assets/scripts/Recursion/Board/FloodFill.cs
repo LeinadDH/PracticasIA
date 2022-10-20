@@ -59,7 +59,7 @@ public class FloodFill : MonoBehaviour
                 StartCoroutine(Fill(x + 1, y));
                 StartCoroutine(Fill(x - 1, y));
                 StartCoroutine(Fill(x, y + 1));
-                StartCoroutine(Fill(x, y - 1));
+                StartCoroutine(Fill(x, y - 1)); 
             }
         }
     }

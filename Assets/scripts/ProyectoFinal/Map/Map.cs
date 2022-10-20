@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
 
 public class Map : MonoBehaviour
 {
     private GameObject[,] _map;
+    private Block[,] _blockMap;
     private int _height;
     private int _width;
     private Vector2 _rotX;
@@ -18,6 +20,7 @@ public class Map : MonoBehaviour
 
     private float _sizeX, _sizeY;
 
+    public Block[,]  BlockMap { get => _blockMap; set => _blockMap = value; }
     public int Height { get => _height; set => _height = value;}
 
     public int Width { get => _width; set => _width = value; }
@@ -26,6 +29,8 @@ public class Map : MonoBehaviour
     public float OffsetY { get => _offsety; set => _offsety = value; }
 
     public bool IsIso { get => _isIso; set => _isIso = value; }
+
+    public Block Start { get => _start; set => _start = value; }
 
     public GameObject[,] createMap(GameObject prefab, float scale = 1, Sprite sprite = null, bool iso = false)
     {
@@ -54,6 +59,7 @@ public class Map : MonoBehaviour
                 }
 
                 _map[X, Y] = title; 
+                _blockMap[X, Y] = block;
             }
         }
 

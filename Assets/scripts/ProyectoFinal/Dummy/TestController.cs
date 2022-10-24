@@ -12,6 +12,9 @@ public class TestController : MonoBehaviour
     public float offsetx;
     public float offsety;
 
+    public Block start;
+    public Block goal;
+
     private void Start()
     {
         map = this.gameObject.GetComponent<Map>();
@@ -21,5 +24,18 @@ public class TestController : MonoBehaviour
         map.OffsetX = offsetx;
         map.OffsetY = offsety;
         map.createMap(prefab, scale);
+    }
+
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.A))
+        {
+            map.Start = start;
+            map.Goal = goal;
+
+            Debug.Log("Start: " + map.Start +  " Goal: " + map.Goal);
+        }
+       
     }
 }

@@ -32,9 +32,13 @@ public class Map : MonoBehaviour
 
     public Block Start { get => _start; set => _start = value; }
 
+    public Block Goal { get => _goal; set => _goal = value; }
+
     public GameObject[,] createMap(GameObject prefab, float scale = 1, Sprite sprite = null, bool iso = false)
     {
         _map = new GameObject[_height, _width];
+        _blockMap = new Block[_height, _width];
+
         for(int Y = 0; Y < _width; Y++)
         {
             for(int X = 0; X < _height; X++)

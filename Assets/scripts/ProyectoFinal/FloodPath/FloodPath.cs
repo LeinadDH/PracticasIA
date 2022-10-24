@@ -11,8 +11,9 @@ public class FloodPath : MonoBehaviour
 
     void Start()
     {
-        _map = GetComponent<Map>();
-        
+        _map = this.gameObject.GetComponent<Map>();
+        _frontier = new Queue<Block>();
+        _comeFrom = new Dictionary<Block, Block>();
     }
 
     void Update()
@@ -32,20 +33,15 @@ public class FloodPath : MonoBehaviour
             Block current = _frontier.Dequeue();
             GetNeighbours(current);
         }
+        printPath();
     }
 
     private void GetNeighbours(Block current)
     {
-
-        while(_frontier.Count > 0)
-        {
-            current = _frontier.Dequeue();
-            
-            if (checkLimits(current.X + 1, current.Y)) addNext(current, current.X + 1, current.Y);
-            if (checkLimits(current.X - 1, current.Y)) addNext(current, current.X - 1, current.Y);
-            if (checkLimits(current.X, current.Y + 1)) addNext(current, current.X, current.Y + 1);
-            if (checkLimits(current.X, current.Y - 1)) addNext(current, current.X, current.Y - 1);
-        }
+        if (checkLimits(current.X + 1, current.Y)) addNext(current, current.X + 1, current.Y);
+        if (checkLimits(current.X - 1, current.Y)) addNext(current, current.X - 1, current.Y);
+        if (checkLimits(current.X, current.Y + 1)) addNext(current, current.X, current.Y + 1);
+        if (checkLimits(current.X, current.Y - 1)) addNext(current, current.X, current.Y - 1);
     }
 
     private bool checkLimits(int x, int y)
@@ -63,12 +59,23 @@ public class FloodPath : MonoBehaviour
         if (!_comeFrom.ContainsValue(Next))
         {
             _frontier.Enqueue(Next);
-            _comeFrom[current] = Next;
+            _comeFrom[Next] = current;
         }
     }
 
     private void printPath()
     {
+        Block previous;
+        previous = _comeFrom[_map.Goal];
+        while (previous != _map.Start)
+        {
+            previous = _comeFrom[previous];
+            previous.Render.color = Color.red;
+        }
 
+        if(previous == _map.Start)
+        {
+            previous.Render.color = Color.blue;
+        }
     }
 }

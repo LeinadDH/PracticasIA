@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class FloodPath : MonoBehaviour
@@ -18,8 +19,9 @@ public class FloodPath : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetKeyDown("space"))
+        if(Input.GetKeyDown(KeyCode.Space))
         {
+            Debug.Log("Is Pressed");
             getPath();
         }
     }
@@ -46,17 +48,17 @@ public class FloodPath : MonoBehaviour
 
     private bool checkLimits(int x, int y)
     {
-        if(x >= 0 && x < _map.Height && y >= 0 && y < _map.Width)
+        if(x < 0 || x >= _map.Width || y < 0 || y >= _map.Height)
         {
-            return true;
+            return false;
         }
-        return false;
+        return true;
     }
 
     private void addNext(Block current, int x, int y)
     {
-        Block Next = _map.BlockMap[x, y];
-        if (!_comeFrom.ContainsValue(Next))
+        Block Next = _map.Mapa[x, y].GetComponent<Block>();
+        if (!_comeFrom.ContainsKey(Next))
         {
             _frontier.Enqueue(Next);
             _comeFrom[Next] = current;
@@ -69,10 +71,9 @@ public class FloodPath : MonoBehaviour
         previous = _comeFrom[_map.Goal];
         while (previous != _map.Start)
         {
-            previous = _comeFrom[previous];
             previous.Render.color = Color.red;
-        }
-
+            previous = _comeFrom[previous];  
+        }    
         if(previous == _map.Start)
         {
             previous.Render.color = Color.blue;

@@ -6,7 +6,6 @@ using UnityEngine;
 public class Map : MonoBehaviour
 {
     private GameObject[,] _map;
-    private Block[,] _blockMap;
     private int _height;
     private int _width;
     private Vector2 _rotX;
@@ -20,7 +19,7 @@ public class Map : MonoBehaviour
 
     private float _sizeX, _sizeY;
 
-    public Block[,]  BlockMap { get => _blockMap; set => _blockMap = value; }
+    public GameObject[,]  Mapa { get => _map; set => _map = value; }
     public int Height { get => _height; set => _height = value;}
 
     public int Width { get => _width; set => _width = value; }
@@ -36,12 +35,11 @@ public class Map : MonoBehaviour
 
     public GameObject[,] createMap(GameObject prefab, float scale = 1, Sprite sprite = null, bool iso = false)
     {
-        _map = new GameObject[_height, _width];
-        _blockMap = new Block[_height, _width];
+        _map = new GameObject[_width, _height];
 
-        for(int Y = 0; Y < _width; Y++)
+        for(int Y = 0; Y < _height; Y++)
         {
-            for(int X = 0; X < _height; X++)
+            for(int X = 0; X < _width; X++)
             {
                 GameObject title = Instantiate(prefab);
 
@@ -63,7 +61,6 @@ public class Map : MonoBehaviour
                 }
 
                 _map[X, Y] = title; 
-                _blockMap[X, Y] = block;
             }
         }
 
@@ -91,7 +88,7 @@ public class Map : MonoBehaviour
 
     public void CenterMap()
     {
-        if(!_isIso) transform.position = new Vector3(_sizeX * (-_height / 2), _sizeY * (-_width / 2), 0);
-        else transform.position = new Vector3(0, _sizeY * (-_width * 2f - (0.4f * _width)), 0);
+        if(!_isIso) transform.position = new Vector3(_sizeX * (-_width / 2), _sizeY * (-_height / 2), 0);
+        else transform.position = new Vector3(0, _sizeY * (-_height * 2f - (0.4f * _height)), 0);
     }
 }
